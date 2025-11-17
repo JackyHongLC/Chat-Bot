@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gemini Fusion Terminal</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- highlight.js for code syntax highlighting -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <!-- marked.js for Markdown parsing -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body>
+
+    <!-- ======== API Key Setup Screen ======== -->
+    <div id="api-key-screen" class="screen visible">
+        <div class="card" id="api-key-card">
+            <h2>設定 Gemini API 金鑰</h2>
+            <p>您的金鑰只會儲存在瀏覽器本機，不會上傳到任何伺ervidor。</p>
+            <div class="input-group">
+                <label for="api-key-input">API Key</label>
+                <input type="password" id="api-key-input" placeholder="請在這裡貼上您的金鑰">
+                <p class="error-message" id="api-key-error"></p>
+            </div>
+            <button id="save-api-key-btn" class="btn btn-primary">儲存</button>
+            <div class="success-message" id="api-key-success">✅ 金鑰輸入成功</div>
+        </div>
+    </div>
+
+    <!-- ======== Main Chat Screen ======== -->
+    <div id="main-screen" class="screen hidden">
+        <div class="sidebar">
+            <h2 class="sidebar-title">歷史對話</h2>
+            <div id="history-list" class="history-list"></div>
+        </div>
+
+        <div class="chat-area">
+            <header class="chat-header">
+                <button id="menu-toggle" class="btn-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24" height="24"><path d="M3 4H21V6H3V4ZM3 11H21V13H3V11ZM3 18H21V20H3V18Z"></path></svg>
+                </button>
+                <div id="persona-selector" class="persona-selector">
+                    <!-- Personas will be loaded here by JS -->
+                </div>
+                <button id="add-persona-btn" class="btn btn-secondary">+ 新增面具</button>
+                <button id="settings-btn" class="btn-icon">
+                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24" height="24"><path d="M19.95,11A8,8,0,0,0,13,4.05V1h-2V4.05A8,8,0,0,0,4.05,11H1v2H4.05A8,8,0,0,0,11,19.95V23h2V19.95A8,8,0,0,0,19.95,13H23v-2h-3.05ZM12,18a6,6,0,1,1,6-6,6,6,0,0,1-6,6Z"></path></svg>
+                </button>
+            </header>
+
+            <main id="chat-container" class="chat-container">
+                <!-- Chat messages will be appended here -->
+            </main>
+
+            <footer class="input-area">
+                <div class="input-wrapper">
+                    <div id="dino-icon" class="dino-icon"></div>
+                    <textarea id="chat-input" placeholder="輸入訊息... (Shift+Enter 換行)" rows="1"></textarea>
+                    <button id="send-btn" class="btn btn-primary btn-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24" height="24"><path d="M3,20.98V3L22.2,12Z"></path></svg>
+                    </button>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <!-- ======== Modals ======== -->
+    <div id="persona-modal" class="modal-backdrop hidden">
+        <div class="modal-content">
+            <h3>新增/編輯面具</h3>
+            <input type="text" id="persona-name" placeholder="面具名稱 (例如：資深開發者)">
+            <textarea id="persona-prompt" placeholder="面具描述 (請輸入這個人格的系統提示)" rows="5"></textarea>
+            <div class="modal-actions">
+                <button id="cancel-persona-btn" class="btn btn-secondary">取消</button>
+                <button id="save-persona-btn" class="btn btn-primary">儲存</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="settings-modal" class="modal-backdrop hidden">
+        <div class="modal-content">
+            <h3>重新設定 API 金鑰</h3>
+            <p>您可以在此更新您的 Gemini API 金鑰。</p>
+            <input type="password" id="update-api-key-input" placeholder="請輸入新的 API 金鑰">
+            <div class="modal-actions">
+                <button id="cancel-settings-btn" class="btn btn-secondary">取消</button>
+                <button id="save-settings-btn" class="btn btn-primary">儲存並更新</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="main.js"></script>
+</body>
+</html>
