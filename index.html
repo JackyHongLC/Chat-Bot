@@ -66,11 +66,22 @@
             display: flex;
             padding: 10px;
             border-top: 1px solid #ddd;
+            position: relative;
+        }
+
+        #dino-placeholder {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            height: 24px; /* Adjust size as needed */
+            pointer-events: none;
+            opacity: 0.5;
         }
 
         #message-input {
             flex-grow: 1;
-            padding: 10px;
+            padding: 10px 10px 10px 45px; /* Adjust left padding */
             border: 1px solid #ccc;
             border-radius: 20px;
             margin-right: 10px;
@@ -104,7 +115,8 @@
         <div id="chat-messages"></div>
         <div id="typing-indicator">Typing...</div>
         <div id="input-container">
-            <input type="text" id="message-input" placeholder="Type a message...">
+            <img src="https://www.icegif.com/wp-content/uploads/2023/05/dinosaur-game-icegif-1.gif" id="dino-placeholder" alt="dino-placeholder">
+            <input type="text" id="message-input">
             <button id="send-button">Send</button>
         </div>
     </div>
@@ -113,6 +125,7 @@
         const messageInput = document.getElementById('message-input');
         const sendButton = document.getElementById('send-button');
         const typingIndicator = document.getElementById('typing-indicator');
+        const dinoPlaceholder = document.getElementById('dino-placeholder');
 
         function addMessage(message, sender) {
             const messageElement = document.createElement('div');
@@ -149,6 +162,8 @@
                 addMessage(message, 'user');
                 messageInput.value = '';
                 simulateAiResponse();
+                // Manually blur the input to trigger the placeholder logic
+                messageInput.blur();
             }
         }
 
@@ -158,6 +173,19 @@
             if (event.key === 'Enter') {
                 sendMessage();
             }
+        });
+
+        messageInput.addEventListener('focus', () => {
+            dinoPlaceholder.style.display = 'none';
+        });
+
+        messageInput.addEventListener('blur', () => {
+            // Use a timeout to allow other events (like click) to process first
+            setTimeout(() => {
+                if (messageInput.value === '') {
+                    dinoPlaceholder.style.display = 'block';
+                }
+            }, 0);
         });
     </script>
 </body>
